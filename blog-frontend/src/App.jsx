@@ -50,13 +50,21 @@ const App = () => {
       }, 5000);
     }
   }
+  const handleLogout = (e) => {
+    setUser(null);
+    window.localStorage.removeItem('loggedUser');
+    loginService.setToken('');
+  }
   return (
     <>
       {( user === null) ? (
         <LoginForm username={username} password={password} handleChange={handleChange} handleSubmit={handleLoginSubmit} errorMessage={errorMessage}/>
       ) : (
         <div>
-          <h1>Logged In: {user.name}</h1>
+          <div>
+            <h1>Logged In: {user.name}</h1>
+            <button onClick={handleLogout}>Logout</button>
+          </div>
           <BlogList blogs={blogs} />
         </div>
       )}

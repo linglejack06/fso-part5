@@ -10,6 +10,17 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
+  useEffect(() => {
+    blogService.getBlogs().then((response) => setBlogs(response));
+  }, []);
+  useEffect(() => {
+    const JSONUser = window.localStorage.getItem('loggedUser');
+    if (JSONUser) {
+      const userObject = JSON.parse(JSONUser)
+      setUser(userObject);
+      loginService.setToken(userObject.token);
+    }
+  }, [])
   const handleChange = (e) => {
     switch(e.target.name) {
       case 'username':
@@ -27,6 +38,8 @@ const App = () => {
         username, password,
       });
       setUser(response);
+      window.localStorage.setItem('loggedUser', JSON.stringify(response));
+      loginService.setToken(response.token);
       setPassword('');
       setUsername('');
     } catch (error) {
@@ -37,13 +50,16 @@ const App = () => {
       }, 5000);
     }
   }
-  useEffect(() => {
-    blogService.getBlogs().then((response) => setBlogs(response));
-  }, []);
   return (
     <>
-      <LoginForm username={username} password={password} handleChange={handleChange} handleSubmit={handleLoginSubmit} errorMessage={errorMessage}/>
-      <BlogList blogs={blogs} />
+      {( user === null) ? (
+        <LoginForm username={username} password={password} handleChange={handleChange} handleSubmit={handleLoginSubmit} errorMessage={errorMessage}/>
+      ) : (
+        <div>
+          <h1>Logged In: {user.name}</h1>
+          <BlogList blogs={blogs} />
+        </div>
+      )}
     </>
   )
 }

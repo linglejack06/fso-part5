@@ -9,6 +9,7 @@ const LoginForm = ({ username, password, handleChange, handleSubmit }) => {
         <label htmlFor='password'>Password: </label>
         <input type='password' id='password' name='password' value={password} onChange={handleChange} />
       </div>
+      <button type='submit'>Login</button>
     </form>
   )
 }

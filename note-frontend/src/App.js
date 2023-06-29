@@ -12,6 +12,7 @@ const App = () => {
   const [newNote, setNewNote] = useState('a new note...');
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
+  const [loginVisible, setLoginVisible] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
@@ -84,12 +85,20 @@ const App = () => {
         setNotes(notes.filter((note) => note.id !== id));
       })
   }
+  const hideWhenVisible = { display: loginVisible ? 'none' : '' };
+  const showWhenVisible = { display: loginVisible ? '' : 'none' };
   return (
     <div>
       <h1>Notes</h1>
       <Notification message={errorMessage} />
       { (user === null) ? (
-        <Login username={username} password={password} handleChange={handleLoginChange} handleSubmit={handleLoginSubmit} />
+        <div>
+          <button style={hideWhenVisible} onClick={() => setLoginVisible(true)}>Log in</button>
+          <div style={showWhenVisible}>
+            <Login username={username} password={password} handleChange={handleLoginChange} handleSubmit={handleLoginSubmit} />
+            <button onClick={() => setLoginVisible(false)}>Cancel</button>
+          </div>
+        </div>
       ) : (
         <div>
           <p>Logged In: {user.name}</p>

@@ -3,6 +3,7 @@ import blogService from './services/blogService';
 import loginService from './services/loginService';
 import BlogList from './components/BlogList';
 import LoginForm from './components/LoginForm';
+import BlogForm from './components/BlogForm';
 
 const App = () => {
   const [errorMessage, setErrorMessage] = useState(null);

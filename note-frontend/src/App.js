@@ -34,6 +34,7 @@ const App = () => {
       .then((data) => {
         setNotes(notes.concat(data));
       });
+    noteFormRef.current.toggleVisibility();
   }
   const handleLoginChange = (e) => {
     if (e.target.name === 'username') {

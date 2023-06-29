@@ -4,11 +4,11 @@ const BlogList = ({ blogs }) => {
   return (
     <div className='blog-list'>
       <h2>Blogs</h2>
-      <uL>
+      <ul>
         {blogs.map((blog) => (
           <Blog key={blog.id} blog={blog} />
         ))}
-      </uL>
+      </ul>
     </div>
   )
 }

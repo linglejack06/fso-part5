@@ -1,4 +1,4 @@
-const BlogForm = ({ title, author, url, handleChange, handleSubmit }) => {
+const BlogForm = ({ user, title, author, url, handleChange, handleSubmit }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className='input-container'>
@@ -7,7 +7,7 @@ const BlogForm = ({ title, author, url, handleChange, handleSubmit }) => {
       </div>
       <div className='input-container'>
         <label htmlFor='author'>Author: </label>
-        <input value={author} onChange={handleChange} name='author' id='author' />
+        <input value={author} placeholder={user.name} onChange={handleChange} name='author' id='author' />
       </div>
       <div className='input-container'>
         <label htmlFor='url'>Web Address: </label>
@@ -19,6 +19,7 @@ const BlogForm = ({ title, author, url, handleChange, handleSubmit }) => {
           name='url' 
           id='url' />
       </div>
+      <button type='submit'>Add Blog</button>
     </form>
   )
 }

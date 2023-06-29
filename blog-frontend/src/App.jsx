@@ -12,7 +12,7 @@ const App = () => {
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
   const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState((user === null) ? '' : user.name);
+  const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
   useEffect(() => {
     blogService.getBlogs().then((response) => setBlogs(response));
@@ -22,7 +22,7 @@ const App = () => {
     if (JSONUser) {
       const userObject = JSON.parse(JSONUser)
       setUser(userObject);
-      loginService.setToken(userObject.token);
+      blogService.setToken(userObject.token);
     }
   }, [])
   const handleChange = (e) => {
@@ -52,7 +52,7 @@ const App = () => {
       });
       setUser(response);
       window.localStorage.setItem('loggedUser', JSON.stringify(response));
-      loginService.setToken(response.token);
+      blogService.setToken(response.token);
       setPassword('');
       setUsername('');
     } catch (error) {
@@ -66,7 +66,7 @@ const App = () => {
   const handleLogout = () => {
     setUser(null);
     window.localStorage.removeItem('loggedUser');
-    loginService.setToken('');
+    blogService.setToken('');
   }
   const handleBlogSubmit = async (e) => {
     e.preventDefault();
@@ -95,7 +95,7 @@ const App = () => {
             <h1>Logged In: {user.name}</h1>
             <button onClick={handleLogout}>Logout</button>
           </div>
-          <BlogForm title={title} author={author} url={url} handleChange={handleChange} handleSubmit={handleBlogSubmit} />
+          <BlogForm user={user} title={title} author={author} url={url} handleChange={handleChange} handleSubmit={handleBlogSubmit} />
           <BlogList blogs={blogs} />
         </div>
       )}

@@ -18,7 +18,13 @@ const BlogForm = ({ user, addBlog }) => {
     }
   }
   const handleSubmit = (e) => {
-    
+    e.preventDefault();
+    addBlog({
+      title, author, url,
+    });
+    setTitle('');
+    setAuthor('');
+    setUrl('');
   }
   return (
     <form onSubmit={handleSubmit}>

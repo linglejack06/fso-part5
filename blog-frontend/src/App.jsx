@@ -4,6 +4,7 @@ import loginService from './services/loginService';
 import BlogList from './components/BlogList';
 import LoginForm from './components/LoginForm';
 import BlogForm from './components/BlogForm';
+import Message from './components/Message';
 
 const App = () => {
   const [message, setMessage] = useState(null);
@@ -68,6 +69,7 @@ const App = () => {
       blogService.setToken(response.token);
       setPassword('');
       setUsername('');
+      addMessage(`Successfully logged in as ${response.name}`);
     } catch (error) {
       console.error(error.message);
       addMessage('Invalid Username or password', true);
@@ -88,6 +90,7 @@ const App = () => {
       setTitle('');
       setAuthor('');
       setUrl('');
+      addMessage('Successfully created blog');
     } catch (error) {
       setMessage(error.message);
       setError(true);
@@ -100,16 +103,17 @@ const App = () => {
   return (
     <>
       {( user === null) ? (
-        <LoginForm username={username} password={password} handleChange={handleChange} handleSubmit={handleLoginSubmit} errorMessage={errorMessage}/>
+        <div className='login'>
+          <Message message={message} error={error} />
+          <LoginForm username={username} password={password} handleChange={handleChange} handleSubmit={handleLoginSubmit}/>
+        </div>
       ) : (
         <div>
           <div>
             {(message == null) ? (
               <h1>Logged In: {user.name}</h1>
               ) : (
-                <div className={(error) ? 'error message' : 'valid message'}>
-                  {message}
-                </div>
+                <Message message={message} error={error} />
               )}
             <button onClick={handleLogout}>Logout</button>
           </div>

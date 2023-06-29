@@ -6,7 +6,8 @@ import LoginForm from './components/LoginForm';
 import BlogForm from './components/BlogForm';
 
 const App = () => {
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [message, setMessage] = useState(null);
+  const [error, setError] = useState(false);
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -44,6 +45,18 @@ const App = () => {
         break;
     }
   }
+  const addMessage = (message, error) => {
+    if (error) {
+      setError(true);
+    } else {
+      setError(false);
+    }
+    setMessage(message);
+    setTimeout(() => {
+      setMessage(null);
+      setError(false);
+    }, 5000)
+  }
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -57,10 +70,7 @@ const App = () => {
       setUsername('');
     } catch (error) {
       console.error(error.message);
-      setErrorMessage('Invalid Password or username');
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
+      addMessage('Invalid Username or password', true);
     }
   }
   const handleLogout = () => {
@@ -79,9 +89,11 @@ const App = () => {
       setAuthor('');
       setUrl('');
     } catch (error) {
-      setErrorMessage(error.message);
+      setMessage(error.message);
+      setError(true);
       setTimeout(() => {
-        setErrorMessage(null)
+        setMessage(null)
+        setError(false);
       }, 5000)
     }
   }
@@ -92,7 +104,13 @@ const App = () => {
       ) : (
         <div>
           <div>
-            <h1>Logged In: {user.name}</h1>
+            {(message == null) ? (
+              <h1>Logged In: {user.name}</h1>
+              ) : (
+                <div className={(error) ? 'error message' : 'valid message'}>
+                  {message}
+                </div>
+              )}
             <button onClick={handleLogout}>Logout</button>
           </div>
           <BlogForm user={user} title={title} author={author} url={url} handleChange={handleChange} handleSubmit={handleBlogSubmit} />

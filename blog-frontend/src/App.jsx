@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import blogService from './services/blogService';
 import loginService from './services/loginService';
 import BlogList from './components/BlogList';
 import LoginForm from './components/LoginForm';
 import BlogForm from './components/BlogForm';
 import Message from './components/Message';
+import Togglable from './components/Togglable';
 
 const App = () => {
   const [message, setMessage] = useState(null);
@@ -13,9 +14,8 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [url, setUrl] = useState('');
+  const loginRef = useRef(null);
+  const blogRef = useRef(null);
   useEffect(() => {
     blogService.getBlogs().then((response) => setBlogs(response));
   }, []);
@@ -34,15 +34,6 @@ const App = () => {
         break;
       case 'password':
         setPassword(e.target.value);
-        break;
-      case 'title':
-        setTitle(e.target.value);
-        break;
-      case 'author':
-        setAuthor(e.target.value);
-        break;
-      case 'url':
-        setUrl(e.target.value);
         break;
     }
   }
@@ -80,16 +71,10 @@ const App = () => {
     window.localStorage.removeItem('loggedUser');
     blogService.setToken('');
   }
-  const handleBlogSubmit = async (e) => {
-    e.preventDefault();
+  const addBlog = async (blogObject) => {
     try {
-      const blog = await blogService.addBlog({
-        title, author, url,
-      });
+      const blog = await blogService.addBlog(blogObject);
       setBlogs([...blogs, blog]);
-      setTitle('');
-      setAuthor('');
-      setUrl('');
       addMessage('Successfully created blog');
     } catch (error) {
       setMessage(error.message);
@@ -105,7 +90,9 @@ const App = () => {
       {( user === null) ? (
         <div className='login'>
           <Message message={message} error={error} />
-          <LoginForm username={username} password={password} handleChange={handleChange} handleSubmit={handleLoginSubmit}/>
+          <Togglable buttonLabel='login' ref={loginRef}>
+            <LoginForm username={username} password={password} handleChange={handleChange} handleSubmit={handleLoginSubmit}/>
+          </Togglable>
         </div>
       ) : (
         <div>
@@ -117,7 +104,9 @@ const App = () => {
               )}
             <button onClick={handleLogout}>Logout</button>
           </div>
-          <BlogForm user={user} title={title} author={author} url={url} handleChange={handleChange} handleSubmit={handleBlogSubmit} />
+          <Togglable buttonLabel='New Blog' ref={blogRef}>
+            <BlogForm user={user} addBlog={addBlog} />
+          </Togglable>
           <BlogList blogs={blogs} />
         </div>
       )}

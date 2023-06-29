@@ -1,4 +1,25 @@
-const BlogForm = ({ user, title, author, url, handleChange, handleSubmit }) => {
+import { useState } from 'react';
+
+const BlogForm = ({ user, addBlog }) => {
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [url, setUrl] = useState('');
+  const handleChange = (e) => {
+    switch (e.target.name) {
+      case 'title':
+        setTitle(e.target.value);
+        break;
+      case 'author':
+        setAuthor(e.target.value);
+        break;
+      case 'url':
+        setUrl(e.target.value);
+        break;
+    }
+  }
+  const handleSubmit = (e) => {
+    
+  }
   return (
     <form onSubmit={handleSubmit}>
       <div className='input-container'>

@@ -1,4 +1,4 @@
-const LoginForm = ({ username, password, handleChange, handleSubmit, errorMessage }) => {
+const LoginForm = ({ username, password, handleChange, handleSubmit }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className='input-container'>
@@ -10,9 +10,6 @@ const LoginForm = ({ username, password, handleChange, handleSubmit, errorMessag
         <input type='password' id='password' name='password' value={password} onChange={handleChange} />
       </div>
       <button type='submit'>Login</button>
-      {( errorMessage === null ) ? null : (
-        <p className='error'>{errorMessage}</p>
-      )}
     </form>
   )
 }

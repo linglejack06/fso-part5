@@ -11,8 +11,6 @@ const App = () => {
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(false);
   const [blogs, setBlogs] = useState([]);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
   const loginRef = useRef(null);
   const blogRef = useRef(null);
@@ -27,16 +25,6 @@ const App = () => {
       blogService.setToken(userObject.token);
     }
   }, [])
-  const handleChange = (e) => {
-    switch(e.target.name) {
-      case 'username':
-        setUsername(e.target.value);
-        break;
-      case 'password':
-        setPassword(e.target.value);
-        break;
-    }
-  }
   const addMessage = (message, error) => {
     if (error) {
       setError(true);
@@ -49,19 +37,14 @@ const App = () => {
       setError(false);
     }, 5000)
   }
-  const handleLoginSubmit = async (e) => {
-    e.preventDefault();
+  const handleLogin = async (credentials) => {
     try {
-      const response = await loginService.login({
-        username, password,
-      });
+      const response = await loginService.login(credentials);
       if (response) {
         setUser(response);
       }
       window.localStorage.setItem('loggedUser', JSON.stringify(response));
       blogService.setToken(response.token);
-      setPassword('');
-      setUsername('');
       addMessage(`Successfully logged in as ${response.name}`);
     } catch (error) {
       console.error(error.message);
@@ -93,7 +76,7 @@ const App = () => {
         <div className='login'>
           <Message message={message} error={error} />
           <Togglable buttonLabel='login' ref={loginRef}>
-            <LoginForm username={username} password={password} handleChange={handleChange} handleSubmit={handleLoginSubmit}/>
+            <LoginForm login={handleLogin} />
           </Togglable>
         </div>
       ) : (

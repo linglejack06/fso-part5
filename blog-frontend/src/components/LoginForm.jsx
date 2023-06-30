@@ -1,4 +1,26 @@
-const LoginForm = ({ username, password, handleChange, handleSubmit }) => {
+import { useState } from 'react';
+
+const LoginForm = ({ login }) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const handleChange = (e) => {
+    switch(e.target.name) {
+      case 'username':
+        setUsername(e.target.value);
+        break;
+      case 'password':
+        setPassword(e.target.value);
+        break;
+    }
+  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await login({
+      username, password,
+    })
+    setUsername('');
+    setPassword('');
+  }
   return (
     <form onSubmit={handleSubmit}>
       <div className='input-container'>

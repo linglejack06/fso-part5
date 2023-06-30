@@ -1,3 +1,6 @@
+/* eslint-disable react/button-has-type */
+/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable react/react-in-jsx-scope */
 import { useState, forwardRef, useImperativeHandle } from 'react';
 import PropTypes from 'prop-types';
 
@@ -7,12 +10,10 @@ const Togglable = forwardRef(({ buttonLabel, children }, refs) => {
   const showWhenVisible = { display: visible ? '' : 'none' };
   const toggleVisibility = () => {
     setVisible(!visible);
-  }
-  useImperativeHandle(refs, () => {
-    return {
-      toggleVisibility
-    }
-  })
+  };
+  useImperativeHandle(refs, () => ({
+    toggleVisibility,
+  }));
   return (
     <div>
       <div style={hideWhenVisible}>
@@ -23,10 +24,11 @@ const Togglable = forwardRef(({ buttonLabel, children }, refs) => {
         <button onClick={toggleVisibility}>Cancel</button>
       </div>
     </div>
-  )
-})
+  );
+});
+Togglable.displayName = 'Togglable';
 Togglable.propTypes = {
   buttonLabel: PropTypes.string.isRequired,
-}
+};
 
 export default Togglable;

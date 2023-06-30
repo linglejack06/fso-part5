@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import blogService from './services/blogService';
 import loginService from './services/loginService';
+import sorter from './utils/sorter';
 import BlogList from './components/BlogList';
 import LoginForm from './components/LoginForm';
 import BlogForm from './components/BlogForm';
@@ -15,7 +16,9 @@ const App = () => {
   const loginRef = useRef(null);
   const blogRef = useRef(null);
   useEffect(() => {
-    blogService.getBlogs().then((response) => setBlogs(response));
+    blogService.getBlogs().then((response) => {
+      setBlogs(sorter(response));
+    });
   }, []);
   useEffect(() => {
     const JSONUser = window.localStorage.getItem('loggedUser');
@@ -59,7 +62,7 @@ const App = () => {
   const addBlog = async (blogObject) => {
     try {
       const blog = await blogService.addBlog(blogObject);
-      setBlogs([...blogs, blog]);
+      setBlogs(sorter([...blogs, blog]));
       addMessage('Successfully created blog');
     } catch (error) {
       addMessage(error.message, true);
@@ -71,7 +74,7 @@ const App = () => {
     try {
       const updatedBlog = await blogService.updateLikes(correctBlog[0]);
       const changedBlogs = blogs.filter((blog) => blog.id !== blogId);
-      setBlogs([...changedBlogs, updatedBlog])
+      setBlogs(sorter([...changedBlogs, updatedBlog]))
       addMessage(`Blog now has ${updatedBlog.likes} likes`);
     } catch (error) {
       addMessage(error.message, true);

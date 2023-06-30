@@ -1,52 +1,21 @@
-/* eslint-env node */
 module.exports = {
-  'env': {
-    'browser': true,
-    'es6': true,
-    'jest/globals': true,
-  },
-  'extends': [
-    'eslint:reccomended',
-    'plugin:react/recommended',
-  ],
-  'parserOptions': {
-    'ecmaFeatuers': {
-      'jsx': true,
+    "env": {
+        "browser": true,
+        "es2021": true
     },
-    'ecmaVersion': 2018,
-    'sourceType': 'module',
-  },
-  'plugins': [
-    'react', 'jest',
-  ],
-  'rules': {
-    'indent': [
-      'error',
-      2
+    "extends": [
+        "plugin:react/recommended",
+        "airbnb"
     ],
-    'linebreak-style': [
-      'error',
-      'unix',
+    "overrides": [
     ],
-    'quotes': [
-      'error',
-      'single',
-    ],
-    "eqeqeq": "error",
-      "no-trailing-spaces": "error",
-      "object-curly-spacing": [
-          "error", "always"
-      ],
-      "arrow-spacing": [
-          "error", { "before": true, "after": true }
-      ],
-      "no-console": 0,
-      "react/prop-types": 0,
-      "react/react-in-jsx-scope": "off"
-  },
-  'settings': {
-    'react': {
-      'version': 'detect',
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
     },
-  },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+    }
 }

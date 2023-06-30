@@ -117,7 +117,7 @@ const App = () => {
           </Togglable>
         </div>
       )}
-      <BlogList blogs={blogs} addLike={addLike} deleteBlog={deleteBlog} />
+      <BlogList blogs={blogs} addLike={addLike} deleteBlog={deleteBlog} user={user}/>
     </>
   )
 }

@@ -18,6 +18,15 @@ const addBlog = async (newBlog) => {
   const response = await axios.post(BASEURL, newBlog, params);
   return response.data;
 }
+const deleteBlog = async (blogId) => {
+  const params = {
+    headers: {
+      Authorization: token,
+    },
+  };
+  const response = await axios.delete(`${BASEURL}/${blogId}`, params);
+  return response.data;
+}
 const updateLikes = async (blog) => {
   const params = {
     headers: {
@@ -28,6 +37,6 @@ const updateLikes = async (blog) => {
   return response.data;
 }
 
-const blogService = { setToken, getBlogs, addBlog, updateLikes };
+const blogService = { setToken, getBlogs, addBlog, deleteBlog, updateLikes };
 
 export default blogService;

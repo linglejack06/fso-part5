@@ -80,6 +80,19 @@ const App = () => {
       addMessage(error.message, true);
     }
   }
+  const deleteBlog = async (blogId) => {
+    const foundBlog = blogs.filter((blog) => blog.id === blogId);
+    if( window.confirm(`Are you sure you want to delete ${foundBlog[0].title}`)) {
+      try {
+        await blogService.deleteBlog(blogId);
+        const updatedBlogs = blogs.filter((blog) => blog.id !== blogId);
+        setBlogs(sorter(updatedBlogs));
+        addMessage(`Successfully deleted ${foundBlog[0].title}`);
+      } catch (error)  {
+        addMessage(error.message, error);
+      }
+    }
+  }
   return (
     <>
       {( user === null) ? (
@@ -104,7 +117,7 @@ const App = () => {
           </Togglable>
         </div>
       )}
-      <BlogList blogs={blogs} addLike={addLike}/>
+      <BlogList blogs={blogs} addLike={addLike} deleteBlog={deleteBlog} />
     </>
   )
 }

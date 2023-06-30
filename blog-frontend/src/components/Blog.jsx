@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const Blog = ({ blog, addLike }) => {
+const Blog = ({ blog, addLike, deleteBlog }) => {
   const [full, setFull] = useState(false);
   const toggleFull = () => {
     setFull(!full);
@@ -13,6 +13,9 @@ const Blog = ({ blog, addLike }) => {
           <a href={blog.url}>{blog.url}</a>
           <button onClick={() => addLike(blog.id)}>
             Likes {blog.likes}
+          </button>
+          <button onClick={() => deleteBlog(blog.id)}>
+            Delete Blog
           </button>
         </div>
         <button onClick={toggleFull}>Close</button>

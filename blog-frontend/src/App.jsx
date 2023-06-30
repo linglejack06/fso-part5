@@ -62,12 +62,19 @@ const App = () => {
       setBlogs([...blogs, blog]);
       addMessage('Successfully created blog');
     } catch (error) {
-      setMessage(error.message);
-      setError(true);
-      setTimeout(() => {
-        setMessage(null)
-        setError(false);
-      }, 5000)
+      addMessage(error.message, true);
+    }
+  }
+  const addLike = async (blogId) => {
+    const correctBlog = blogs.filter((blog) => blog.id === blogId);
+    console.log(correctBlog);
+    try {
+      const updatedBlog = await blogService.updateLikes(correctBlog[0]);
+      const changedBlogs = blogs.filter((blog) => blog.id !== blogId);
+      setBlogs([...changedBlogs, updatedBlog])
+      addMessage(`Blog now has ${updatedBlog.likes} likes`);
+    } catch (error) {
+      addMessage(error.message, true);
     }
   }
   return (
@@ -94,7 +101,7 @@ const App = () => {
           </Togglable>
         </div>
       )}
-      <BlogList blogs={blogs} />
+      <BlogList blogs={blogs} addLike={addLike}/>
     </>
   )
 }

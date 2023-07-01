@@ -33,11 +33,11 @@ const Blog = ({ blog, addLike, deleteBlog, isMadeByUser }) => {
     </div>
   )
 }
-Blog.propTypes = {
-  blog: propTypes.object.isRequired,
-  addLike: propTypes.func.isRequired,
-  deleteBlog: propTypes.func.isRequired,
-  isMadeByUser: propTypes.bool.isRequired,
-}
+// Blog.propTypes = {
+//   blog: propTypes.object.isRequired,
+//   addLike: propTypes.func.isRequired,
+//   deleteBlog: propTypes.func.isRequired,
+//   isMadeByUser: propTypes.bool.isRequired,
+// }
 
 export default Blog;

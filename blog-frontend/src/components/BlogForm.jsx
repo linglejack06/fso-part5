@@ -46,7 +46,7 @@ const BlogForm = ({ user, addBlog }) => {
           name='url' 
           id='url' />
       </div>
-      <button type='submit'>Add Blog</button>
+      <button className='submit-btn' type='submit'>Add Blog</button>
     </form>
   )
 }

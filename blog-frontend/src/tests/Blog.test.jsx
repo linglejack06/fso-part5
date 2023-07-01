@@ -24,4 +24,14 @@ test('blog url and likes are shown when toggled', async () => {
   const likes = screen.getByText('Likes 0');
   expect(url).toBeDefined();
   expect(likes).toBeDefined();
+});
+test('like function is called', async () => {
+  const user = userEvent.setup();
+  const addLike = jest.fn();
+  const container = render(<Blog blog={blog} addLike={addLike} />).container;
+  const showButton = container.querySelector('.expand-btn');
+  await user.click(showButton);
+  const likeButton = container.querySelector('.like-btn');
+  await user.click(likeButton);
+  expect(addLike.mock.calls).toHaveLength(1);
 })

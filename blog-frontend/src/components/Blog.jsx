@@ -12,7 +12,7 @@ const Blog = ({ blog, addLike, deleteBlog, isMadeByUser }) => {
         <div className='blog-container large'>
           <p>{blog.title} by {blog.author}</p>
           <a href={blog.url}>{blog.url}</a>
-          <button onClick={() => addLike(blog.id)}>
+          <button className='like-btn' onClick={() => addLike(blog.id)}>
             Likes {blog.likes}
           </button>
           { isMadeByUser ? (

@@ -29,7 +29,7 @@ const Blog = ({ blog, addLike, deleteBlog, isMadeByUser }) => {
   return (
     <div className='blog-container small'>
       <p>{blog.title} by {blog.author}</p>
-      <button onClick={toggleFull}>Expand</button>
+      <button className='expand-btn' onClick={toggleFull}>Expand</button>
     </div>
   )
 }

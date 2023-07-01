@@ -11,7 +11,7 @@ function NoteForm({ createNote }) {
     setNote('');
   };
   return (
-    <form onSubmit={addNote}>
+    <form onSubmit={addNote} className="note-form">
       <input value={note} onChange={(e) => setNote(e.target.value)} />
       <button type="submit">save</button>
     </form>

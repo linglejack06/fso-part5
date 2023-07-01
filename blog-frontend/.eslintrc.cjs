@@ -5,14 +5,8 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
-  ],
-  overrides: [
-    {
-      files: ["./src/test/**"],
-      plugins: ["jest"],
-      extends: ["plugin:jest/recommended"],
-      rules: { "jest/prefer-expect-assertions": "off" }
-    }
+    "react-app",
+    "react-app/jest"
   ],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   settings: { react: { version: '18.2' } },

@@ -36,5 +36,19 @@ describe('Note app', () => {
       cy.contains('save').click();
       cy.contains('cypress test note');
     });
+    describe('note exists', () => {
+      beforeEach(() => {
+        cy.contains('New Note').click();
+        cy.get('input').type('test note');
+        cy.contains('save').click();
+      });
+      it('changes note\'s importance', () => {
+        cy.contains('test note')
+          .contains('make not important')
+          .click();
+        cy.contains('test note')
+          .contains('make important');
+      });
+    });
   });
 });

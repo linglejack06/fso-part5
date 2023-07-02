@@ -16,4 +16,18 @@ describe('Note app', () => {
     cy.contains('Login to Notes').click();
     cy.contains('Logged In:');
   });
+  describe('When logged in', () => {
+    beforeEach(() => {
+      cy.contains('Login').click();
+      cy.get('#username').type('jling');
+      cy.get('#password').type('password');
+      cy.contains('Login to Notes').click();
+    });
+    it('creates new note', () => {
+      cy.contains('New Note').click();
+      cy.get('input').type('cypress test note');
+      cy.contains('save').click();
+      cy.contains('cypress test note');
+    });
+  });
 });

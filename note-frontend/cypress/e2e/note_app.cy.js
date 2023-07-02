@@ -1,13 +1,13 @@
 describe('Note app', () => {
   beforeEach(() => {
-    cy.request('POST', 'http:localhost:3001/api/testing/reset');
+    cy.request('POST', `${Cypress.env('BACKEND')}/testing/reset`);
     const user = {
       name: 'Jack Lingle',
       username: 'jling',
       password: 'password',
     };
-    cy.request('POST', 'http:localhost:3001/api/users/', user);
-    cy.visit('http://localhost:3001');
+    cy.request('POST', `${Cypress.env('BACKEND')}/users/`, user);
+    cy.visit('');
   });
   it('front page can be opened', () => {
     cy.contains('Notes');
@@ -23,12 +23,17 @@ describe('Note app', () => {
     cy.contains('Login to Notes').click();
     cy.contains('Logged In: Jack Lingle');
   });
+  it('fails log in with bad credentials', () => {
+    cy.contains('Login').click();
+    cy.get('#username').type('jling');
+    cy.get('#password').type('bad-password');
+    cy.contains('Login to Notes').click();
+    cy.get('.error').contains('Invalid username or password');
+    cy.contains('Logged In: Jack Lingle').should('not.exist');
+  });
   describe('When logged in', () => {
     beforeEach(() => {
-      cy.contains('Login').click();
-      cy.get('#username').type('jling');
-      cy.get('#password').type('password');
-      cy.contains('Login to Notes').click();
+      cy.login({ username: 'jling', password: 'password' });
     });
     it('creates new note', () => {
       cy.contains('New Note').click();
@@ -38,9 +43,10 @@ describe('Note app', () => {
     });
     describe('note exists', () => {
       beforeEach(() => {
-        cy.contains('New Note').click();
-        cy.get('input').type('test note');
-        cy.contains('save').click();
+        cy.createNote({
+          content: 'test note',
+          important: true,
+        });
       });
       it('changes note\'s importance', () => {
         cy.contains('test note')

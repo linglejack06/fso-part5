@@ -67,13 +67,32 @@ describe('Blog app', () => {
         cy.contains('Delete Blog').click();
         cy.get('html').should('not.contain', 'test by tester');
       })
-      it.only('only creator can see blog delete button', () => {
+      it('only creator can see blog delete button', () => {
         cy.login({
           username: 'jaycas',
           password: 'heydude'
         });
         cy.contains('Expand').click();
         cy.should('not.contain', 'Delete Blog');
+      })
+    })
+    describe('multiple blogs added', () => {
+      beforeEach(() => {
+        cy.createBlog({
+          title: 'test',
+          author: 'tester',
+          url: 'www.test.com'
+        });
+        cy.createBlog({
+          title: 'test 2',
+          author: 'tester 2',
+          url: 'www.test2.com'
+        });
+      });
+      it.only('sorts blogs with most likes to top', () => {
+        cy.get('.1-blog').contains('Expand').click();
+        cy.get('.1-blog').contains('Likes 0').click();
+        cy.get('.1-blog').should('not.contain', 'test 2 by tester 2');
       })
     })
   });

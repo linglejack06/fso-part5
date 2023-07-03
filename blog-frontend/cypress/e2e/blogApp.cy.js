@@ -6,6 +6,11 @@ describe('Blog app', () => {
       password: 'password',
       name: 'Jack Lingle'
     });
+    cy.request('POST', `${Cypress.env('BACKEND')}/users`, {
+      username: 'jaycas',
+      password: 'heydude',
+      name: 'Jayden Cassady'
+    });
     cy.visit('');
   })
   it('Opens with login form', () => {
@@ -43,5 +48,33 @@ describe('Blog app', () => {
       cy.get('.submit-btn').click();
       cy.contains('test title by Jack lingle');
     })
-  })
+    describe('blog added', () => {
+      beforeEach(() => {
+        cy.createBlog({
+          title: 'test',
+          author: 'tester',
+          url: 'www.test.com'
+        });
+        cy.visit('');
+      })
+      it('likes blog', () => {
+        cy.contains('Expand').click();
+        cy.contains('Likes 0').click();
+        cy.contains('Likes 1');
+      })
+      it('user can delete blog', () => {
+        cy.contains('Expand').click();
+        cy.contains('Delete Blog').click();
+        cy.get('html').should('not.contain', 'test by tester');
+      })
+      it.only('only creator can see blog delete button', () => {
+        cy.login({
+          username: 'jaycas',
+          password: 'heydude'
+        });
+        cy.contains('Expand').click();
+        cy.should('not.contain', 'Delete Blog');
+      })
+    })
+  });
 })

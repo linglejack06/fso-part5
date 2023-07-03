@@ -47,6 +47,14 @@ describe('Note app', () => {
           content: 'test note',
           important: true,
         });
+        cy.createNote({
+          content: 'second test note',
+          important: false,
+        });
+        cy.createNote({
+          content: 'third test note',
+          important: true,
+        });
       });
       it('changes note\'s importance', () => {
         cy.contains('test note')

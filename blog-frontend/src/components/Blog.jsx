@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import propTypes from 'prop-types';
 
-const Blog = ({ blog, addLike, deleteBlog, isMadeByUser }) => {
+const Blog = ({ blog, addLike, deleteBlog, isMadeByUser, index }) => {
   const [full, setFull] = useState(false);
   const toggleFull = () => {
     setFull(!full);
@@ -9,7 +9,7 @@ const Blog = ({ blog, addLike, deleteBlog, isMadeByUser }) => {
   if (full) {
     return (
       <div className='wrapper'>
-        <div className='blog-container large'>
+        <div className={`blog-container large ${index}-blog`}>
           <p>{blog.title} by {blog.author}</p>
           <a href={blog.url}>{blog.url}</a>
           <button className='like-btn' onClick={() => addLike(blog.id)}>
@@ -27,7 +27,7 @@ const Blog = ({ blog, addLike, deleteBlog, isMadeByUser }) => {
     )
   }
   return (
-    <div className='blog-container small'>
+    <div className={`blog-container small ${index}-blog`}>
       <p>{blog.title} by {blog.author}</p>
       <button className='expand-btn' onClick={toggleFull}>Expand</button>
     </div>

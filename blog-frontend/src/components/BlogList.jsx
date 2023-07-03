@@ -5,18 +5,19 @@ const BlogList = ({ blogs, addLike, deleteBlog, user }) => {
     <div className='blog-list'>
       <h2>Blogs</h2>
       <ul>
-        {blogs.map((blog) => {
+        {blogs.map((blog, index) => {
           let isMadeByUser = false;
           if (user && user.name === blog.user.name) {
             isMadeByUser = true;
           }
           return (
-            <Blog 
+            <Blog
               key={blog.id}
               blog={blog}
               addLike={addLike}
               deleteBlog={deleteBlog}
               isMadeByUser={isMadeByUser}
+              index={index}
             />
           )
         })}
